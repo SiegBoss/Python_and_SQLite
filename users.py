@@ -5,7 +5,7 @@ from tkinter import ttk
 from tkinter import messagebox
 
 #URL de la base de datos | Database URL
-url = "Python/SQLite and Python/Username.db"
+url = "Users.db"
 
 #--------------------------------------------------------------
 
