@@ -9,61 +9,76 @@ from tkinter import messagebox
 # URL de la base de datos | Database URL
 url = "Users.db"
 
+#--------------------------------------------------------------
+
+
+#----------------
+
 # Funcion para insertar datos | Function to insert data
 def insert():
     
     # Desactivar el boton de insertar | Disable the insert button
-    buttonInsert.config(state="disabled")
+    button_insert.config(state="disabled")
 
     # Nueva ventana de Insertar datos | New window to insert data
-    windowInsert = Toplevel(window)
-    windowInsert.title("Insertar datos")
-    windowInsert.geometry("350x200")
+    window_insert = Toplevel(window)
+    window_insert.title("Insertar datos")
+    window_insert.geometry("350x200")
 
     # Etiquetas de texto | Text labels
-    Label(windowInsert, text="Usuario", font=("Arial", 12)).grid(row=1, column=0)
-    Label(windowInsert, text="Email", font=("Arial", 12)).grid(row=2, column=0)
-    Label(windowInsert, text="Nombre", font=("Arial", 12)).grid(row=3, column=0)
-    Label(windowInsert, text="Apellido", font=("Arial", 12)).grid(row=4, column=0)
-    Label(windowInsert, text="Fecha de Nacimiento", font=("Arial", 12)).grid(row=5, column=0)
+    Label(window_insert, text="Usuario", font=("Arial", 12)).grid(row=1, column=0)
+    Label(window_insert, text="Email", font=("Arial", 12)).grid(row=2, column=0)
+    Label(window_insert, text="Nombre", font=("Arial", 12)).grid(row=3, column=0)
+    Label(window_insert, text="Apellido", font=("Arial", 12)).grid(row=4, column=0)
+    Label(window_insert, text="Fecha de Nacimiento", font=("Arial", 12)).grid(row=5, column=0)
 
     # Entradas de texto | Text entries
-    usuarioEntry = Entry(windowInsert, font=("Arial", 12))
-    usuarioEntry.grid(row=1, column=1)
-    emailEntry = Entry(windowInsert, font=("Arial", 12))
-    emailEntry.grid(row=2, column=1)
-    nameEntry = Entry(windowInsert, font=("Arial", 12))
-    nameEntry.grid(row=3, column=1)
-    lastnameEntry = Entry(windowInsert, font=("Arial", 12))
-    lastnameEntry.grid(row=4, column=1)
-    dateEntry = Entry(windowInsert, font=("Arial", 12))
-    dateEntry.grid(row=5, column=1)
+    usuario_entry = Entry(window_insert, font=("Arial", 12))
+    usuario_entry.grid(row=1, column=1)
+    email_entry = Entry(window_insert, font=("Arial", 12))
+    email_entry.grid(row=2, column=1)
+    name_entry = Entry(window_insert, font=("Arial", 12))
+    name_entry.grid(row=3, column=1)
+    lastname_entry = Entry(window_insert, font=("Arial", 12))
+    lastname_entry.grid(row=4, column=1)
+    date_entry = Entry(window_insert, font=("Arial", 12))
+    date_entry.grid(row=5, column=1)
 
     # Crear un botón para enviar los datos | Create a button to send the data
     Button(
-        windowInsert,
+        window_insert,
         text="Enviar",
         font=("Arial", 12),
-        command=lambda: sendData(
-            usuarioEntry.get(),
-            emailEntry.get(),
-            nameEntry.get(),
-            lastnameEntry.get(),
-            dateEntry.get(),
+        command=lambda: send_data(
+            usuario_entry.get(),
+            email_entry.get(),
+            name_entry.get(),
+            lastname_entry.get(),
+            date_entry.get(),
         ),
     ).grid(row=6, column=0, columnspan=2)
 
     # Cerrar la ventana de insertar datos | Close the window to insert data
-    windowInsert.protocol("WM_DELETE_WINDOW", lambda: closeWindowInsert(windowInsert))
+    window_insert.protocol("WM_DELETE_WINDOW", lambda: close_window_insert(window_insert))
+
+#----------------
+
+
+#----------------
 
 # Función para cerrar la ventana de insertar datos y activar el boton de insertar | Function to close the window to insert data and activate the insert button
-def closeWindowInsert(windowInsert):
+def close_window_insert(window_insert):
     
-    windowInsert.destroy()
-    buttonInsert.config(state="normal")
+    window_insert.destroy()
+    button_insert.config(state="normal")
+
+#----------------
+
+
+#----------------
 
 # Función para enviar los datos a la base de datos en SQLite | Function to send the data to the SQLite database
-def sendData(username, email, name, lastname, date):
+def send_data(username, email, name, lastname, date):
     
     # Comprobar que los campos no esten vacios | Check that the fields are not emptyq
     if username == "" or email == "" or name == "" or lastname == "" or date == "":
@@ -89,7 +104,12 @@ def sendData(username, email, name, lastname, date):
     connection.close()
 
     # Mostrar los datos | Show the data
-    updateData()
+    update_data()
+
+#----------------
+
+
+#----------------
 
 # Función para eliminar los datos de la base de datos | Function to delete the data from the database
 def remove():
@@ -124,10 +144,15 @@ def remove():
     connection.close()
 
     # Mostrar los datos | Show the data
-    updateData()
+    update_data()
+
+#----------------
+
+
+#----------------
 
 # Actualizar los datos en la tabla | Update the data in the table
-def updateData():
+def update_data():
     
     # Eliminar los elementos existentes | Delete existing items
     for row in data.get_children():
@@ -152,21 +177,26 @@ def updateData():
         
         data.insert("", "end", values=row)
 
+#----------------
+
+
+#--------------------------------------------------------------
+
 # Crear la ventana principal | Create the main window
 window = Tk()
 window.title("Base de datos de suarios")
 
 # Boton para insertar | Button to insert
-buttonInsert = Button(
+button_insert = Button(
     window, text="Insertar", font=("Arial", 10), command=lambda: insert()
 )
-buttonInsert.grid(row=0, column=0)
+button_insert.grid(row=0, column=0)
 
 # Boton para eliminar | Button to remove
-buttonRemove = Button(
+button_remove = Button(
     window, text="Eliminar", font=("Arial", 10), command=lambda: remove()
 )
-buttonRemove.grid(row=0, column=3)
+button_remove.grid(row=0, column=3)
 
 # Crear el Treeview | Create the Treeview
 data = ttk.Treeview(window, show="headings")
@@ -199,7 +229,8 @@ data.heading("Apellido", text="Apellido")
 data.heading("Fecha de Nacimiento", text="Fecha de Nacimiento")
 
 # Mostrar los datos | Show the data
-updateData()
+update_data()
 
 # Loop para que funcione la aplicacion | Loop for the application to work
 window.mainloop()
+#--------------------------------------------------------------
